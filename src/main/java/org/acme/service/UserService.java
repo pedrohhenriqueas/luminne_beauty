@@ -3,6 +3,7 @@ package org.acme.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.acme.entities.Product;
 import org.acme.entities.User;
 import org.acme.models.CreateUserDto;
 import org.acme.repository.UserRepository;
@@ -34,13 +35,18 @@ public class UserService {
         return user.get();
     }
 
-    public User update(CreateUserDto createUserDto){
-        User user = findById(createUserDto.getId());
-        user.setCart(createUserDto.getCart());
-        user.setEmail(createUserDto.getEmail());
-        user.setName(createUserDto.getName());
-        user.setPassword(createUserDto.getPassword());
+    public User update(User userNewData){
+        User user = findById(userNewData.getId());
+        user.setCart(userNewData.getCart());
+        user.setEmail(userNewData.getEmail());
+        user.setName(userNewData.getName());
+        user.setPassword(userNewData.getPassword());
         userRepository.save(user);
         return user;
+    }
+
+    public List<Product> getUserCart(int userId){
+        User user = findById(userId);
+        return user.getCart();
     }
 }

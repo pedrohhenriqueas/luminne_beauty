@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.acme.entities.Product;
+import org.acme.entities.User;
 import org.acme.models.CreateProductDto;
 import org.acme.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class ProductService {
     
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private UserService userService;
 
     public Product create(CreateProductDto newProduct){
         Product product = new Product();
@@ -53,5 +57,19 @@ public class ProductService {
         productRepository.save(product);
 
         return findById(product.getId());
+    }
+
+    public void addProductToCart(int userId, int productId){
+        User user = userService.findById(userId);
+        Product productToAdd = findById(productId);
+        user.getCart().add(productToAdd);
+        userService.update(user);
+    }
+
+    public void removeProductFromCart(int userId, int productId){
+        User user = userService.findById(userId);
+        Product productToRemove = findById(productId);
+        user.getCart().remove(productToRemove);
+        userService.update(user); 
     }
 }

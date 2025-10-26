@@ -16,6 +16,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/product")
@@ -66,4 +67,25 @@ public class ProductController {
         Product updatedProduct = productService.findById(productDto.getId());
         return RestResponse.ok(updatedProduct);
     }
+
+    @POST
+    @Path("/add")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public RestResponse<Object> addProductToCart(@QueryParam("userId") int userId,
+                                                    @QueryParam("productId") int productId){
+        productService.addProductToCart(userId, productId);
+        return RestResponse.ok("Produto adicionado com sucesso");
+    }
+
+    @DELETE
+    @Path("/remove")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public RestResponse<Object> remoreProductFromCart(@QueryParam("userId") int userId,
+                                                        @QueryParam("productId") int productId){
+        productService.removeProductFromCart(userId, productId);
+        return RestResponse.ok("Produto removido com sucesso");
+    }
+
 }
