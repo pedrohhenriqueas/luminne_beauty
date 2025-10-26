@@ -7,5 +7,5 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public interface UserRepository extends JpaRepository<User, Integer>{
-    
+    User findByEmail(String email);
 }
