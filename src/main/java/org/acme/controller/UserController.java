@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -30,8 +31,8 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public RestResponse<Object> create(CreateUserDto newUser) {
-        userService.create(newUser);
-        return RestResponse.ok(newUser);
+        User user = userService.create(newUser); 
+        return RestResponse.ok(user);
     }
 
     @GET
@@ -57,6 +58,13 @@ public class UserController {
     public RestResponse<Object> getUserCart(@QueryParam("userId") int userId){
         List<Product> products = userService.getUserCart(userId);
         return RestResponse.ok(products);
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public RestResponse<Object> delete(@QueryParam("userId") int userId){
+        userService.delete(userId);
+        return RestResponse.ok("Usuário deletado com sucesso.");
     }
     
 }

@@ -49,4 +49,8 @@ public class UserService {
         User user = findById(userId);
         return user.getCart();
     }
+
+    public void delete(int userId){
+        userRepository.deleteById(userId);
+    }
 }
